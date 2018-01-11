@@ -24,6 +24,10 @@
     "build": "babel src -d lib",
     "prepublish": "npm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexanderson1993/react-dmx"
+  },
   "author": "Alex Anderson @alexanderson1993",
   "license": "MIT"
 }
