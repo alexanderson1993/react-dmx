@@ -5,6 +5,7 @@ export default class Universe {
   constructor(root, props) {
     this.root = root;
     this.props = props;
+    this.children = [];
   }
 
   // Add children

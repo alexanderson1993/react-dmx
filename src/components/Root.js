@@ -1,8 +1,9 @@
-import dmx from '../util/dmx';
-import state from '../util/stateManagement';
-import Universe from './Universe';
+import dmx from "../util/dmx";
+import state from "../util/stateManagement";
+import Universe from "./Universe";
 
 export default class Root {
+  children = [];
   addUniverse = ({ name, mode = "null", port, children }) => {
     const universe = dmx.addUniverse(name, mode, port);
     console.log("Added Universe:", name);
