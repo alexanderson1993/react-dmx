@@ -1,13 +1,13 @@
 {
   "name": "react-dmx",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Render React components to DMX light systems.",
   "main": "lib/renderer/renderer.js",
   "dependencies": {
+    "color": "^2.0.1",
     "dmx": "0.0.5",
     "fbjs": "^0.8.16",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0",
     "react-reconciler": "^0.7.0"
   },
   "devDependencies": {

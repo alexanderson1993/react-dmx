@@ -12,6 +12,7 @@ export default class Root {
     });
   };
   appendChild(child) {
+    this.children.push(child);
     if (child instanceof Universe) {
       const { name = "default-universe", mode = "null", port } = child.props;
       this.addUniverse({ name, mode, port, children: child.children });
