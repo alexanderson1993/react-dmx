@@ -1,13 +1,8 @@
-import state from '../util/stateManagement';
 export default class Light {
   constructor(root, props) {
     this.root = root;
     this.props = props;
     this.children = [];
-    const { channel, intensity } = props;
-    if (state.universes[0]) {
-      state.updateUniverse(state.universes[0].name, { channel, intensity });
-    }
   }
 
   appendChild(child) {

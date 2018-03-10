@@ -2,17 +2,12 @@ import Reconciler from "react-reconciler";
 import emptyObject from "fbjs/lib/emptyObject";
 import { createElement } from "./createElement";
 import diffProperties from "../util/diffProperties";
-import state from '../util/stateManagement';
+import dmx from "../util/dmx";
 
 var ReconcilerConfig = {
   appendInitialChild(parentInstance, child) {
     if (parentInstance.appendChild) {
       parentInstance.appendChild(child);
-    } else {
-      parentInstance.universe = Object.assign(
-        parentInstance.universe || {},
-        child
-      );
     }
   },
 
@@ -68,43 +63,44 @@ var ReconcilerConfig = {
     appendChild(parentInstance, child) {
       if (parentInstance.appendChild) {
         parentInstance.appendChild(child);
-      } else {
-        parentInstance.universe = Object.assign(
-          parentInstance.universe || {},
-          child
-        );
       }
     },
 
     appendChildToContainer(parentInstance, child) {
       if (parentInstance.appendChild) {
         parentInstance.appendChild(child);
-      } else {
-        parentInstance.universe = Object.assign(
-          parentInstance.universe || {},
-          child
-        );
       }
     },
 
     removeChild(parentInstance, child) {
+      dmx.update(child.root, { [child.props.channel]: 0 });
       parentInstance.removeChild(child);
     },
 
     removeChildFromContainer(parentInstance, child) {
+      if (child.universe) {
+        // Clear out all of the channels first.
+        child.universe.updateAll(0);
+        // Give it some time to write the 0s to the device
+        setTimeout(() => {
+          child.universe.close();
+          child.universe = null;
+          delete child.universe;
+        }, 50);
+      }
       parentInstance.removeChild(child);
     },
 
     insertBefore(parentInstance, child, beforeChild) {
-      // noob
+      //Order doesn't matter. Just throw it in.
+      if (parentInstance.appendChild) {
+        parentInstance.appendChild(child);
+      }
     },
 
     commitUpdate(instance, updatePayload, type, oldProps, newProps) {
-      const universe = instance.root;
       instance.props = newProps;
-      if (type === "light") {
-        state.updateUniverse(universe, newProps);
-      }
+      dmx.update(instance.root, instance.render());
     },
 
     commitMount(instance, updatePayload, type, oldProps, newProps) {

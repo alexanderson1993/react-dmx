@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import render from "../renderer/renderer";
 import colorParse from "color";
 class Pulse extends Component {
@@ -48,13 +48,7 @@ class Disco extends Component {
   };
   render() {
     return (
-      <RGBLight
-        color={this.state}
-        intensity={1}
-        red={0}
-        green={1}
-        blue={2}
-      />
+      <RGBLight color={this.state} intensity={1} red={0} green={1} blue={2} />
     );
   }
 }
@@ -93,17 +87,29 @@ class Demo extends Component {
   }
   loop = () => {
     if (this.looping) {
-      setTimeout(this.loop, 1000 * 5);
+      setTimeout(this.loop, 1000);
       this.setState({
         which: this.state.which === 0 ? 1 : 0
       });
     }
   };
   render() {
-    if (this.state.which === 0) return <Disco />;
-    return <Pulse />;
+    if (this.state.which === 0) {
+      return (
+        <universe
+          name="universe-1"
+          //mode="null"
+          mode="enttec-usb-dmx-pro"
+          port="/dev/cu.usbserial-A7XSB63S"
+        >
+          <Disco />
+        </universe>
+      );
+    }
+    return null;
   }
 }
+
 const RGBLight = ({
   color = "rebeccapurple",
   intensity = 1,
@@ -132,12 +138,7 @@ const RGBLight = ({
 };
 
 render(
-  <universe
-    name="universe-1"
-    mode="enttec-usb-dmx-pro"
-    port="/dev/cu.usbserial-A7XSB63S"
-  >
+  <Fragment>
     <Demo />
-    <RGBLight intensity={Math.random()} red={3} green={4} blue={5} />
-  </universe>
+  </Fragment>
 );

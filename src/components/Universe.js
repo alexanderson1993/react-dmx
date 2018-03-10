@@ -1,3 +1,4 @@
+import dmx from "../util/dmx";
 export default class Universe {
   // Store all the children here
   children = [];
@@ -6,8 +7,18 @@ export default class Universe {
     this.root = root;
     this.props = props;
     this.children = [];
+    const { name = "default-universe", mode = "null", port } = props;
+    this.addUniverse({ name, mode, port });
   }
 
+  addUniverse = ({ name, mode = "null", port }) => {
+    this.universe = dmx.addUniverse(name, mode, port);
+    console.log("Added Universe:", name);
+    /*state.universes.push({
+      name,
+      children: children.map(c => Object.assign({}, c.props))
+    });*/
+  };
   // Add children
   appendChild(child) {
     child.root = this.props.name;
@@ -21,18 +32,15 @@ export default class Universe {
   }
 
   renderChildren() {
-    for (let i = 0; i < this.children.length; i += 1) {
-      if (typeof this.children[i] === "string") {
-        // If not a component, render it as a paragraph
-        //this.adder.addText(this.children[i]);
-      } else if (typeof this.children[i] === "object") {
-        // We know it's a component so just call the render() method
-        this.children[i].render();
-      }
+    if (Array.isArray(this.children)) {
+      return this.children.map(c => c.render()).reduce((prev, next) => {
+        return { ...prev, [Object.keys(next)[0]]: Object.values(next)[0] };
+      }, {});
     }
+    return this.children.render();
   }
 
   render() {
-    this.renderChildren();
+    return { name: this.props.name, channels: this.renderChildren() };
   }
 }

@@ -1,7 +1,6 @@
 import ReactDMX from "./reconciler";
-import parse from "./parse";
 import { createElement } from "./createElement";
-import dmx from '../util/dmx';
+import dmx from "../util/dmx";
 
 async function render(element) {
   // Create root container instance
@@ -14,14 +13,14 @@ async function render(element) {
   ReactDMX.updateContainer(element, node, null);
 
   // Parse the input component and return the output
-  const output = parse(container);
-
+  const output = container.render();
   await new Promise((resolve, reject) => {
     // Update the DMX universes
     try {
       output.forEach(u => {
         dmx.update(u.name, u.channels);
-      });      resolve();
+      });
+      resolve();
     } catch (err) {
       reject(err);
     }
