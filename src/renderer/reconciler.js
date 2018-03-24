@@ -2,7 +2,8 @@ import Reconciler from "react-reconciler";
 import emptyObject from "fbjs/lib/emptyObject";
 import { createElement } from "./createElement";
 import diffProperties from "../util/diffProperties";
-import dmx from "../util/dmx";
+import universes from "../util/stateManagement";
+import "../util/updater";
 
 var ReconcilerConfig = {
   appendInitialChild(parentInstance, child) {
@@ -73,7 +74,8 @@ var ReconcilerConfig = {
     },
 
     removeChild(parentInstance, child) {
-      dmx.update(child.root, { [child.props.channel]: 0 });
+      universes[child.root][child.props.channel] = 0;
+      //dmx.update(child.root, { [child.props.channel]: 0 });
       parentInstance.removeChild(child);
     },
 
@@ -100,7 +102,10 @@ var ReconcilerConfig = {
 
     commitUpdate(instance, updatePayload, type, oldProps, newProps) {
       instance.props = newProps;
-      dmx.update(instance.root, instance.render());
+      universes[instance.root] = Object.assign(
+        universes[instance.root],
+        instance.render()
+      );
     },
 
     commitMount(instance, updatePayload, type, oldProps, newProps) {

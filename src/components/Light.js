@@ -1,6 +1,5 @@
 export default class Light {
-  constructor(root, props) {
-    this.root = root;
+  constructor(props) {
     this.props = props;
     this.children = [];
   }

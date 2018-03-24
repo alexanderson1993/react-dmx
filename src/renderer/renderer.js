@@ -14,16 +14,8 @@ async function render(element) {
 
   // Parse the input component and return the output
   const output = container.render();
-  await new Promise((resolve, reject) => {
-    // Update the DMX universes
-    try {
-      output.forEach(u => {
-        dmx.update(u.name, u.channels);
-      });
-      resolve();
-    } catch (err) {
-      reject(err);
-    }
+  output.forEach(u => {
+    dmx.update(u.name, u.channels);
   });
 }
 

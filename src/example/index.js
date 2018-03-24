@@ -38,7 +38,7 @@ class Disco extends Component {
   }
   loop = () => {
     if (this.looping) {
-      setTimeout(this.loop, 100);
+      setTimeout(this.loop, 23);
       this.setState({
         r: Math.random() * 255,
         g: Math.random() * 255,
@@ -94,19 +94,16 @@ class Demo extends Component {
     }
   };
   render() {
-    if (this.state.which === 0) {
-      return (
-        <universe
-          name="universe-1"
-          //mode="null"
-          mode="enttec-usb-dmx-pro"
-          port="/dev/cu.usbserial-A7XSB63S"
-        >
-          <Disco />
-        </universe>
-      );
-    }
-    return null;
+    return (
+      <universe
+        name="universe-1"
+        //mode="null"
+        mode="enttec-usb-dmx-pro"
+        port="/dev/cu.usbserial-A7XSB63S"
+      >
+        {this.state.which === 0 ? <Disco /> : <Pulse />}
+      </universe>
+    );
   }
 }
 

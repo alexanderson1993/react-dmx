@@ -1,12 +1,11 @@
-import Root from '../components/Root';
-import Universe from '../components/Universe';
-import Light from '../components/Light';
-import state from '../util/stateManagement';
+import Root from "../components/Root";
+import Universe from "../components/Universe";
+import Light from "../components/Light";
 
 function createElement(type, props = {}) {
   const COMPONENTS = {
     ROOT: () => new Root(),
-    light: () => new Light((state.universes.length > 0) ? state.universes[0].name : null, props),
+    light: () => new Light(props),
     universe: () => new Universe(null, props),
     default: undefined
   };
@@ -14,6 +13,4 @@ function createElement(type, props = {}) {
   return COMPONENTS[type]() || COMPONENTS.default;
 }
 
-export {
-  createElement
-};
+export { createElement };

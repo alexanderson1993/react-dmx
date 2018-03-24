@@ -1,4 +1,5 @@
 import dmx from "../util/dmx";
+import universes from "../util/stateManagement";
 export default class Universe {
   // Store all the children here
   children = [];
@@ -12,6 +13,7 @@ export default class Universe {
   }
 
   addUniverse = ({ name, mode = "null", port }) => {
+    universes[name] = {};
     this.universe = dmx.addUniverse(name, mode, port);
     console.log("Added Universe:", name);
     /*state.universes.push({
